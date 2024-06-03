@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio</title>
+    <style>
+        #bookmenu {
+            background-image: linear-gradient(yellow, blue);
+            width: 400px;
+            height: 420px;
+            margin-left: 450px;
+            margin-top: 75px;
+            border-radius: 40px;
+        }
+        #playbutton {
+            font-size: 20px;
+            border-style: none;
+            text-decoration: none;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: rgb(33, 255, 55);
+            width: 95px;
+            height: 56px;
+            margin-left: 730px;
+            position: relative;
+            bottom: 90px;
+            border-radius: 7px;
+        }
+        #stopbutton {
+            font-size: 20px;
+            border-style: none;
+            text-decoration: none;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: rgb(255, 33, 33);
+            width: 95px;
+            height: 56px;
+            margin-left: 480px;
+            position: relative;
+            bottom: 146px;
+            border-radius: 7px;
+        }
+        #bookphoto {
+            height: 240px;
+            width: 220px;
+            margin-left: 90px;
+            border-radius: 30px;
+            margin-top: 50px;
+        }
+        button{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="bookmenu">
+        <img id="bookphoto" src="image.png">
+    </div>
+    
+    <div class="buttons">
+        <button id="playbutton" onclick="startSpeech()"><i class="fas fa-play"></i>Play</button>
+        <button id="stopbutton" onclick="stopSpeech()"><i class="fas fa-stop"></i>Stop</button>
+    </div>
+
+    <script>
+        let speech = new SpeechSynthesisUtterance();
+        let isSpeaking = false;
+        let lastCharIndex = 0;
+
+        speech.onboundary = function(event) {
+            if (event.name === 'word') {
+                lastCharIndex = event.charIndex;
+            }
+        };
+
+        function startSpeech() {
+            if (!isSpeaking) {
+                // Provide the text content here
+                const text = "The book ranked #17 on The New York Times list of best-selling science books for August 2014. In the same month, business magnate Elon Musk made headlines by agreeing with the book that artificial intelligence is potentially more dangerous than nuclear weapons. Bostrom's work on superintelligence has also influenced Bill Gates's concern for the existential risks facing humanity over the coming century. In a March 2015 interview by Baidu's CEO, Robin Li, Gates said that he would...";
+                speech.text = text.substring(lastCharIndex);
+                window.speechSynthesis.speak(speech);
+                isSpeaking = true;
+            }
+        }
+
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+        }
+    </script>
+</body>
+</html>
